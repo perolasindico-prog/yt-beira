@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>YouTube Rewards</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b1120;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: #0b1120;
+        }
+
+        .yt-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .yt-icon {
+            width: 32px;
+            height: 22px;
+            background: #ff0000;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .yt-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 8px solid #fff;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            margin-left: 2px;
+        }
+
+        .yt-brand-text {
+            line-height: 1.1;
+        }
+
+        .yt-brand-text .name {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .yt-brand-text .sub {
+            font-size: 10px;
+            color: #22c55e;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .balance-badge {
+            background: #22c55e;
+            color: #fff;
+            padding: 7px 14px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        /* ===== SCREENS ===== */
+        .screen {
+            display: none;
+            padding: 20px;
+            min-height: calc(100vh - 60px);
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* ===== WELCOME ===== */
+        #welcome {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .welcome-card {
+            background: #151d30;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            padding: 32px 24px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .welcome-card .gift {
+            font-size: 40px;
+            margin-bottom: 12px;
+        }
+
+        .welcome-card h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .welcome-card .desc {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .saldo-box {
+            background: #0b1120;
+            border: 1px solid #22c55e;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .saldo-box .label {
+            font-size: 11px;
+            color: #94a3b8;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .saldo-box .amount {
+            font-size: 36px;
+            font-weight: 900;
+            color: #22c55e;
+        }
+
+        .welcome-card .info {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .welcome-card .info span {
+            color: #22c55e;
+            font-weight: 700;
+        }
+
+        .btn-start {
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-start:active {
+            transform: scale(0.97);
+        }
+
+        /* ===== QUIZ ===== */
+        #quiz {
+            padding-top: 10px;
+        }
+
+        .video-card {
+            background: #151d30;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            padding: 16px;
+            width: 100%;
+        }
+
+        .video-thumb {
+            width: 100%;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .video-thumb img {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .video-thumb .duration {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .video-thumb .views-overlay {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 900;
+        }
+
+        .video-info .title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+
+        .video-info .meta {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .question-text {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 20px 0 8px;
+            line-height: 1.4;
+        }
+
+        .question-sub {
+            text-align: center;
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 16px;
+        }
+
+        /* Emoji Options */
+        .emoji-options {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .emoji-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 2px solid #1e293b;
+            background: #151d30;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .emoji-btn:active {
+            transform: scale(0.9);
+        }
+
+        .emoji-btn.selected {
+            border-color: #22c55e;
+            background: #0f2a1a;
+        }
+
+        /* Yes/No Options */
+        .yesno-options {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .yesno-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: transform 0.2s ease;
+        }
+
+        .yesno-btn:active {
+            transform: scale(0.95);
+        }
+
+        .yesno-btn.yes {
+            background: #22c55e;
+            color: #fff;
+        }
+
+        .yesno-btn.no {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        /* ===== REWARD POPUP ===== */
+        .reward-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .reward-popup.show {
+            display: flex;
+        }
+
+        .reward-popup-card {
+            background: #0f2a1a;
+            border: 2px solid #22c55e;
+            border-radius: 20px;
+            padding: 32px 44px;
+            text-align: center;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .reward-popup-card .coin-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .reward-popup-card .amount {
+            font-size: 36px;
+            font-weight: 900;
+            color: #22c55e;
+        }
+
+        .reward-popup-card .msg {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        /* ===== RESULTS ===== */
+        #results {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .results-card {
+            background: #151d30;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            padding: 32px 24px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .check-icon {
+            width: 56px;
+            height: 56px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .check-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+        }
+
+        .results-card h2 {
+            font-size: 22px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .results-card .sub {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .results-card .saldo-box .amount {
+            font-size: 40px;
+        }
+
+        .results-card .saldo-box .label {
+            font-size: 12px;
+        }
+
+        .results-card .retire-text {
+            font-size: 13px;
+            color: #94a3b8;
+            margin: 16px 0 20px;
+            line-height: 1.5;
+        }
+
+        .btn-video {
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 800;
+            width: 100%;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-video:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="yt-brand">
+            <div class="yt-icon"></div>
+            <div class="yt-brand-text">
+                <div class="name">YouTube</div>
+                <div class="sub">REWARDS</div>
+            </div>
+        </div>
+        <div class="balance-badge" id="balance-display">$ 33.91</div>
+    </div>
+
+    <div class="container">
+
+        <!-- WELCOME -->
+        <div class="screen active" id="welcome">
+            <div class="welcome-card">
+                <div class="gift">🎁</div>
+                <h1>Parabéns!</h1>
+                <p class="desc">Você foi selecionado para o novo programa de recompensas do YouTube!</p>
+                <div class="saldo-box">
+                    <div class="label">SEU SALDO ATUAL</div>
+                    <div class="amount">$33.91</div>
+                </div>
+                <p class="info">Faça mais <span>5 avaliações</span> e retire!</p>
+                <button class="btn-start" onclick="startQuiz()">COMEÇAR AGORA</button>
+            </div>
+        </div>
+
+        <!-- QUIZ -->
+        <div class="screen" id="quiz">
+            <div class="video-card" id="video-card">
+                <div class="video-thumb">
+                    <img id="thumb-img" src="" alt="Video">
+                    <span class="duration" id="thumb-duration"></span>
+                </div>
+                <div class="video-info">
+                    <div class="title" id="video-title"></div>
+                    <div class="meta" id="video-meta"></div>
+                </div>
+            </div>
+
+            <div class="question-text" id="question-text"></div>
+            <div class="question-sub">Selecione a opção abaixo 👇</div>
+
+            <div class="emoji-options" id="emoji-options" style="display:none;">
+                <button class="emoji-btn" onclick="selectAnswer(this)">😡</button>
+                <button class="emoji-btn" onclick="selectAnswer(this)">😠</button>
+                <button class="emoji-btn" onclick="selectAnswer(this)">😤</button>
+            </div>
+
+            <div class="yesno-options" id="yesno-options" style="display:none;">
+                <button class="yesno-btn yes" onclick="selectAnswer(this)">👍 Sim</button>
+                <button class="yesno-btn no" onclick="selectAnswer(this)">👎 Não</button>
+            </div>
+        </div>
+
+        <!-- REWARD POPUP -->
+        <div class="reward-popup" id="reward-popup">
+            <div class="reward-popup-card">
+                <div class="coin-icon">💰</div>
+                <div class="amount">+$45.00</div>
+                <div class="msg">Adicionado ao seu saldo!</div>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="screen" id="results">
+            <div class="results-card">
+                <div class="check-icon">
+                    <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+                </div>
+                <h2>Parabéns! 🎉</h2>
+                <p class="sub">Todas as avaliações foram concluídas.</p>
+                <div class="saldo-box">
+                    <div class="label">SALDO TOTAL</div>
+                    <div class="amount" id="final-amount">$213.91</div>
+                </div>
+                <p class="retire-text">Para registrar sua conta e retirar fundos, assista a um vídeo de 4 minutos.</p>
+                <button class="btn-video" onclick="window.location.href='video.html'">VER O VÍDEO</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const cashSound = new Audio('assets/reward.mp3');
+        function playCashSound() {
+            try { cashSound.currentTime = 0; cashSound.play().catch(() => {}); } catch(e) {}
+        }
+
+        const videos = [
+            {
+                thumb: 'assets/thumb1.jpg', duration: '20:16',
+                title: 'Pasé 7 días en solitario',
+                meta: '188 millones de visitas · hace 10 meses',
+                question: 'Qual é a sua reação quando você vê a capa deste vídeo?',
+                type: 'emoji'
+            },
+            {
+                thumb: 'assets/thumb2.jpg', duration: '1:03',
+                title: 'Probé comida de todos los países en los que jugué',
+                meta: '6,7 millones de visitas · hace 1 mes',
+                question: 'A capa deste vídeo faz você querer ver o vídeo?',
+                type: 'emoji'
+            },
+            {
+                thumb: 'assets/thumb3.jpg', duration: '17:25',
+                title: '¡JUGAMOS EL JUEGO DE CALAMAR EN LA VIDA REAL!',
+                meta: '31 millones de visitas · hace 3 años',
+                question: 'Qual é a sua reação quando você vê a capa deste vídeo?',
+                type: 'emoji'
+            },
+            {
+                thumb: 'assets/thumb4.jpg', duration: '4:09',
+                title: 'La ESCENA FINAL de La CASA de PAPEL PARTE 3 | Netflix España',
+                meta: '4,7 millones de visitas · hace 4 años',
+                question: 'Qual é a sua reação quando você vê a capa deste vídeo?',
+                type: 'yesno'
+            },
+            {
+                thumb: 'assets/thumb5.jpg', duration: '5:32',
+                title: 'Top 10 Vídeos Mais Vistos do YouTube',
+                meta: '12 millones de visitas · hace 2 años',
+                question: 'A capa deste vídeo faz você querer ver o vídeo?',
+                type: 'emoji'
+            }
+        ];
+
+        let current = 0;
+        let balance = 33.91;
+
+        function updateBalance() {
+            document.getElementById('balance-display').textContent = `$ ${balance.toFixed(2)}`;
+        }
+
+        function startQuiz() {
+            document.getElementById('welcome').classList.remove('active');
+            document.getElementById('quiz').classList.add('active');
+            loadVideo();
+        }
+
+        function loadVideo() {
+            const v = videos[current];
+            document.getElementById('thumb-img').src = v.thumb;
+            document.getElementById('thumb-duration').textContent = v.duration;
+            document.getElementById('video-title').textContent = v.title;
+            document.getElementById('video-meta').textContent = v.meta;
+            document.getElementById('question-text').textContent = v.question;
+
+            document.getElementById('emoji-options').style.display = v.type === 'emoji' ? 'flex' : 'none';
+            document.getElementById('yesno-options').style.display = v.type === 'yesno' ? 'flex' : 'none';
+        }
+
+        function selectAnswer(btn) {
+            // Disable buttons
+            document.querySelectorAll('.emoji-btn, .yesno-btn').forEach(b => b.style.pointerEvents = 'none');
+            btn.classList.add('selected');
+
+            setTimeout(() => {
+                balance += 45;
+                updateBalance();
+                playCashSound();
+                document.getElementById('reward-popup').classList.add('show');
+
+                setTimeout(() => {
+                    document.getElementById('reward-popup').classList.remove('show');
+                    current++;
+
+                    // Reset buttons
+                    document.querySelectorAll('.emoji-btn, .yesno-btn').forEach(b => {
+                        b.style.pointerEvents = 'auto';
+                        b.classList.remove('selected');
+                    });
+
+                    if (current < videos.length) {
+                        loadVideo();
+                    } else {
+                        balance = 213.91;
+                        updateBalance();
+                        document.getElementById('quiz').classList.remove('active');
+                        document.getElementById('results').classList.add('active');
+                    }
+                }, 1200);
+            }, 400);
+        }
+    </script>
+
+</body>
+</html>

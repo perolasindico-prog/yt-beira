@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>YouTube Rewards - Vídeo</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b1120;
+            color: #fff;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 0 16px 24px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(11, 17, 32, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(30, 41, 59, 0.5);
+        }
+
+        .yt-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .yt-icon {
+            width: 32px;
+            height: 22px;
+            background: #ff0000;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .yt-icon::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-left: 8px solid #fff;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            margin-left: 2px;
+        }
+
+        .yt-brand-text .name {
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .yt-brand-text .sub {
+            font-size: 10px;
+            color: #22c55e;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .balance-badge {
+            background: #22c55e;
+            color: #fff;
+            padding: 7px 14px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 800;
+        }
+
+        /* Header text */
+        .video-header {
+            padding: 8px 0 16px;
+        }
+
+        .video-header p {
+            font-size: 14px;
+            font-weight: 700;
+            color: #f59e0b;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* Video Section */
+        .video-section {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #000;
+            margin-bottom: 8px;
+        }
+
+        /* Verify */
+        .verify-bar {
+            text-align: center;
+            padding: 8px 0 20px;
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Comments Card */
+        .comments-card {
+            background: #151d30;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid #1e293b;
+        }
+
+        .fb-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .fb-header .fb-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fb-header .fb-logo .fb-icon {
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fb-header .fb-logo .fb-icon svg {
+            width: 14px;
+            height: 14px;
+            fill: #fff;
+        }
+
+        .fb-header .fb-logo span {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .fb-header .fb-count {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .fb-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 14px;
+        }
+
+        .comment {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .comment:last-child {
+            margin-bottom: 0;
+        }
+
+        .comment-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            object-fit: cover;
+        }
+
+        .comment-body {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .comment-name {
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .comment-text {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .comment-reactions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+        }
+
+        .comment-reactions .emojis {
+            font-size: 14px;
+        }
+
+        .comment-reactions .count {
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        /* Comment Input */
+        .comment-input {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid #1e293b;
+        }
+
+        .comment-input input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+
+        .comment-input input::placeholder {
+            color: rgba(100, 116, 139, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="yt-brand">
+            <div class="yt-icon"></div>
+            <div class="yt-brand-text">
+                <div class="name">YouTube</div>
+                <div class="sub">REWARDS</div>
+            </div>
+        </div>
+        <div class="balance-badge">$ 213.91</div>
+    </div>
+
+    <div class="container">
+
+        <!-- Header -->
+        <div class="video-header">
+            <p>Assista este vídeo até o final e veja como liberar o seu saldo 👇</p>
+        </div>
+
+        <!-- Video -->
+        <div class="video-section">
+            <div id="vturb-video">
+                <vturb-smartplayer id="vid-69d2defb0dc0d0116de7a19d" style="display:block;width:100%;"></vturb-smartplayer>
+                <script type="text/javascript">
+                    var s=document.createElement("script"); s.src="https://scripts.converteai.net/e9be14cf-afa2-44b0-a1c8-54721a1cf2c2/players/69d2defb0dc0d0116de7a19d/v4/player.js", s.async=!0,document.head.appendChild(s);
+                </script>
+            </div>
+        </div>
+
+        <!-- Verify -->
+        <div class="verify-bar">🔊 Verifique se o seu som está ligado.</div>
+
+        <!-- Facebook Comments Card -->
+        <div class="comments-card">
+
+            <!-- FB Header -->
+            <div class="fb-header">
+                <div class="fb-logo">
+                    <div class="fb-icon">
+                        <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    </div>
+                    <span>Facebook</span>
+                </div>
+                <span class="fb-count">11 de 22 comentários</span>
+            </div>
+
+            <div class="fb-label">Comentários recentes</div>
+
+            <!-- Comments -->
+            <div class="comment">
+                <img src="assets/comment-1-CPmTJJKS.png" class="comment-avatar" alt="">
+                <div class="comment-body">
+                    <div class="comment-name">Carlos Mucavel</div>
+                    <div class="comment-text">Obrigado, consegui sacar os 213 dólares 🙏 agora estou a fazer mais avaliações para ganhar mais.</div>
+                    <div class="comment-reactions">
+                        <span class="emojis">👍❤️🤩</span>
+                        <span class="count">42</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment">
+                <img src="assets/comment-2-BaDPHDCe.jpg" class="comment-avatar" alt="">
+                <div class="comment-body">
+                    <div class="comment-name">Nelma Chauque</div>
+                    <div class="comment-text">Isso é surreal 🤯 acho que esse será o meu ano kkkk</div>
+                    <div class="comment-reactions">
+                        <span class="emojis">😆❤️</span>
+                        <span class="count">31</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment">
+                <img src="assets/comment-3-BybHcowp.png" class="comment-avatar" alt="">
+                <div class="comment-body">
+                    <div class="comment-name">João Mabunda</div>
+                    <div class="comment-text">Gostaria de agradecer por essa oportunidade, principalmente nós que fomos afetados pelas cheias em Xai-Xai. Tem ajudado muito, obrigado.</div>
+                    <div class="comment-reactions">
+                        <span class="emojis">❤️👍</span>
+                        <span class="count">56</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment">
+                <img src="assets/comment-4-DDpwxxBm.png" class="comment-avatar" alt="">
+                <div class="comment-body">
+                    <div class="comment-name">Rosa Macuácua</div>
+                    <div class="comment-text">Usei por dois dias e fiz um total de 17 mil meticais. Vou conseguir comprar os materiais escolares dos meus filhos 🙌</div>
+                    <div class="comment-reactions">
+                        <span class="emojis">❤️🤩</span>
+                        <span class="count">63</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment">
+                <img src="assets/comment-5-CEDnVHE8.png" class="comment-avatar" alt="">
+                <div class="comment-body">
+                    <div class="comment-name">Américo Nhantumbo</div>
+                    <div class="comment-text">No início duvidei, mas está mesmo a funcionar. Recomendo testar.</div>
+                    <div class="comment-reactions">
+                        <span class="emojis">👍</span>
+                        <span class="count">22</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comment">
+                <div class="comment-avatar" style="background:#1e293b;display:flex;align-items:center;justify-content:center;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="comment-body">
+                    <div class="comment-name">Lucinda Bila</div>
+                    <div class="comment-text">Já comecei hoje e estou animada. Vamos ver até onde dá 💪</div>
+                    <div class="comment-reactions">
+                        <span class="emojis">❤️</span>
+                        <span class="count">18</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comment Input -->
+            <div class="comment-input">
+                <input type="text" placeholder="Escreva um comentário..." readonly>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

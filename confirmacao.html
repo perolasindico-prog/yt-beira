@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pagamento Confirmado - YouTube Rewards</title>
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '4055334618129287');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=4055334618129287&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b1120;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: #151d30;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            padding: 32px 24px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .check-circle {
+            width: 72px;
+            height: 72px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .check-circle svg {
+            width: 40px;
+            height: 40px;
+            fill: #fff;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0); opacity: 0; }
+            60% { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .card h1 {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+
+        .confirmation-msg {
+            background: #0f2a1a;
+            border: 1px solid #22c55e;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d1fae5;
+        }
+
+        .confirmation-msg .ref {
+            font-family: monospace;
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+
+        .details {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: #0b1120;
+            border-radius: 10px;
+            font-size: 13px;
+        }
+
+        .detail-row .label {
+            color: #94a3b8;
+        }
+
+        .detail-row .value {
+            font-weight: 700;
+        }
+
+        .detail-row .value.green {
+            color: #22c55e;
+        }
+
+        .btn-access {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 800;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-access:active {
+            transform: scale(0.97);
+        }
+
+        .footer-text {
+            margin-top: 16px;
+            font-size: 11px;
+            color: #64748b;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="card">
+            <div class="check-circle">
+                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+            </div>
+
+            <h1>Pagamento Confirmado!</h1>
+
+            <div class="confirmation-msg">
+                ✅ O seu pagamento de 197 MT, Ref: e2P396796 foi confirmado.
+                <div class="ref">Transação processada com sucesso</div>
+            </div>
+
+            <div class="details">
+                <div class="detail-row">
+                    <span class="label">Valor pago</span>
+                    <span class="value">197 MT</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Referência</span>
+                    <span class="value">e2P396796</span>
+                </div>
+                <div class="detail-row">
+                    <span class="label">Estado</span>
+                    <span class="value green">✓ Confirmado</span>
+                </div>
+            </div>
+
+            <a href="https://www.africagrabpoint.com" target="_blank" class="btn-access">ACESSAR A PLATAFORMA</a>
+
+            <p class="footer-text">O seu acesso foi activado. Clique no botão acima para entrar.</p>
+        </div>
+    </div>
+
+</body>
+</html>
